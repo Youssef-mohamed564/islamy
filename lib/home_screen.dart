@@ -59,7 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.blackColor.withOpacity(.6)),
                     child: SvgPicture.asset(
                       AppAsset.quraanIcon,
-                      color: Colors.white,
+                      colorFilter:
+                          ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     ),
                   ),
                   icon: SvgPicture.asset(
@@ -74,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.blackColor.withOpacity(.6)),
                     child: SvgPicture.asset(
                       AppAsset.hadeethIcon,
-                      color: Colors.white,
+                      colorFilter:
+                          ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     ),
                   ),
                   icon: SvgPicture.asset(
@@ -89,7 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.blackColor.withOpacity(.6)),
                     child: SvgPicture.asset(
                       AppAsset.sebhaIcon,
-                      color: Colors.white,
+                      colorFilter:
+                          ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     ),
                   ),
                   icon: SvgPicture.asset(
@@ -104,7 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.blackColor.withOpacity(.6)),
                     child: SvgPicture.asset(
                       AppAsset.radioIcon,
-                      color: Colors.white,
+                      colorFilter:
+                          ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     ),
                   ),
                   icon: SvgPicture.asset(
@@ -119,7 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.blackColor.withOpacity(.6)),
                     child: SvgPicture.asset(
                       AppAsset.vectorIcon,
-                      color: Colors.white,
+                      colorFilter:
+                          ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     ),
                   ),
                   icon: SvgPicture.asset(
