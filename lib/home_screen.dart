@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:islamy/common/app_assets.dart';
 import 'package:islamy/common/app_colors.dart';
-import 'package:islamy/hadeeth_tap.dart';
-import 'package:islamy/quraan_tap.dart';
-import 'package:islamy/radio_tap.dart';
-import 'package:islamy/sebha_tap.dart';
-import 'package:islamy/time_tap.dart';
+import 'package:islamy/models/sura_model.dart';
+import 'package:islamy/tabs/hadeeth_tap.dart';
+import 'package:islamy/tabs/quraan_tap.dart';
+import 'package:islamy/tabs/radio_tap.dart';
+import 'package:islamy/tabs/sebha_tap.dart';
+import 'package:islamy/tabs/time_tap.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/quraan';
@@ -20,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
   List<Widget> taps = [
-    QuraanTap(),
+    QuraanTap(suraModel: SuraModel(arName: 'الفاتحة', enName: 'el-Fatiha', versesCount: 7),),
     HadeethTap(),
     SebhaTap(),
     RadioTap(),
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: Scaffold(resizeToAvoidBottomInset: false,
         body: Stack(children: [
           taps[index],
           Positioned(
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             right: 0,
             child: Image.asset(
               AppAsset.islamyHeader,
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.18,
             ),
           ),
         ]),
