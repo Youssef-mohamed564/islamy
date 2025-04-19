@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
   List<Widget> taps = [
-    QuraanTap(suraModel: SuraModel(arName: 'الفاتحة', enName: 'el-Fatiha', versesCount: 7),),
+    QuraanTap(),
     HadeethTap(),
     SebhaTap(),
     RadioTap(),

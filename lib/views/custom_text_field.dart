@@ -3,23 +3,32 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:islamy/common/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({super.key,required this.hintText
-   ,this.prefixIcon});
+  const CustomTextField({
+    super.key,
+    required this.hintText,
+    this.prefixIcon,
+    required this.controller,
+    this.onChanged,
+  });
 
-  final String? prefixIcon ;
-
-  final String hintText  ;
-
+  final String? prefixIcon;
+  final TextEditingController controller;
+  final String hintText;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
-    return TextField(style: TextStyle(color: Colors.white),
+    return TextField(controller: controller,
+      onChanged: onChanged,
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
-          hintStyle:const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16),
+          hintStyle: TextStyle(
+              color: Colors.white.withOpacity(.6),
+              fontWeight: FontWeight.w500,
+              fontSize: 16),
           hintText: hintText,
           prefixIcon: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(prefixIcon??'',
+            child: SvgPicture.asset(prefixIcon ?? '',
                 height: 28,
                 width: 28,
                 colorFilter: ColorFilter.mode(

@@ -3,16 +3,43 @@ import 'package:islamy/common/app_assets.dart';
 import 'package:islamy/common/app_colors.dart';
 import 'package:islamy/views/sura_card.dart';
 import 'package:islamy/views/sura_tile.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 import '../views/custom_text_field.dart';
 import 'package:islamy/models/sura_model.dart';
 
-class QuraanTap extends StatelessWidget {
-   QuraanTap({super.key, required this.suraModel});
+class QuraanTap extends StatefulWidget {
+  String? search;
+  QuraanTap({super.key, this.suraModel, this.search});
 
-  final SuraModel suraModel;
-List<SuraModel> suras =List.generate(15, (index)=>SuraModel(arName: 'arName$index', enName: 'enName$index', versesCount: 10));
+  SuraModel? suraModel;
+
+  @override
+  State<QuraanTap> createState() => _QuraanTapState();
+}
+
+class _QuraanTapState extends State<QuraanTap> {
+  List<int> mostRecently = [];
+  List<SuraModel> suras =
+      List.generate(SuraModel.suras.length, (index) => SuraModel.suras[index]);
+
+  late List<SuraModel> filteredSuras = SuraModel.suras
+      .where(
+        (e) => e.arName.contains(widget.search ?? ''),
+      )
+      .toList();
+
+  TextEditingController controller = TextEditingController();
+
+  _QuraanTapState();
+
+
+
   @override
   Widget build(BuildContext context) {
+    List<SuraModel> temp = SuraModel.suras
+        .where((e) => mostRecently.contains(e.suraCount - 1))
+        .toList();
+
     return Stack(
       children: [
         Image.asset(
@@ -39,56 +66,62 @@ List<SuraModel> suras =List.generate(15, (index)=>SuraModel(arName: 'arName$inde
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: CustomTextField(
+                      onChanged: (p0) {
+                        if (p0.length > 3) {
+                          setState(() {
+                            print('xxxxxxxxx');
+                          });
+                        } else if (p0.isEmpty) {
+                          setState(() {
+                            print('xxxxxxxxx');
+                          });
+                        }
+                      },
+                      controller: controller,
                       hintText: 'Sura Name..',
                       prefixIcon: AppAsset.quraanIcon,
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .57,
-                    width: double.infinity,
-                    child: ListView(
-                      children: [
-                        const Text(
-                          'Most Recently ',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(
-                            height: 160,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => SuraCard(
-                                      suraModel: SuraModel(
-                                          enName: suraModel.enName,
-                                          arName: suraModel.arName,
-                                          versesCount: suraModel.versesCount),
-                                    ))),
-                        const Text(
-                          'Suras List',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * .32,
-                            child: ListView.separated(
-                                separatorBuilder: (context, index) => Divider(
-                                      endIndent: 36,
-                                      indent: 36,
-                                    ),
-                                itemCount: 20,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) => SuraTile()))
-                      ],
-                    ),
+                  const Text(
+                    'Most Recently ',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
                   ),
+                  SizedBox(
+                      height: 160,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: temp.length,
+                          itemBuilder: (context, index) => SuraCard(
+                              onSuraClicked: addToMostRecent,
+                              suraModel: SuraModel.suras[
+                                  mostRecently.toSet().elementAt(index) - 1]))),
+                  const Text(
+                    'Suras List',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * .32,
+                      child: ListView.separated(
+                          separatorBuilder: (context, index) => const Divider(
+                                endIndent: 36,
+                                indent: 36,
+                              ),
+                          itemCount: filteredSuras.length,
+                          shrinkWrap: true,
+                          // physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => SuraTile(
+                                onSuraClicked: addToMostRecent,
+                                suraModel: filteredSuras[index],
+                              ))),
                 ],
               ),
             )
@@ -96,5 +129,12 @@ List<SuraModel> suras =List.generate(15, (index)=>SuraModel(arName: 'arName$inde
         )
       ],
     );
+  }
+
+  void addToMostRecent(int id) {
+    mostRecently.insert(0, id);
+    print(mostRecently);
+
+    setState(() {});
   }
 }
