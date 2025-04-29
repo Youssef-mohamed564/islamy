@@ -3,7 +3,7 @@ import 'package:islamy/common/app_assets.dart';
 import 'package:islamy/common/app_colors.dart';
 import 'package:islamy/views/sura_card.dart';
 import 'package:islamy/views/sura_tile.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../views/custom_text_field.dart';
 import 'package:islamy/models/sura_model.dart';
 
@@ -31,6 +31,22 @@ class _QuraanTapState extends State<QuraanTap> {
   TextEditingController controller = TextEditingController();
 
   _QuraanTapState();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    SharedPreferences prf = await SharedPreferences.getInstance();
+    List<String>? data = prf.getStringList('mostRecent');
+    mostRecently = (data ?? []).map((e) => int.parse(e)).toList();
+    setState(() {});
+  }
+
+
 
 
 
@@ -134,7 +150,15 @@ class _QuraanTapState extends State<QuraanTap> {
   void addToMostRecent(int id) {
     mostRecently.insert(0, id);
     print(mostRecently);
-
+    SharedPreferences.getInstance().then((prefrences) {
+      prefrences.setStringList(
+          'mostRecent',
+          mostRecently
+              .map(
+                (e) => e.toString(),
+          )
+              .toList());
+    });
     setState(() {});
   }
 }
